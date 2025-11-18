@@ -14,11 +14,12 @@ class TestHoliday(unittest.TestCase):
     def test_false(self, mock_datetime): # patch() uses this parameter(mock_datetime) to pass the mocked object into your test. From there, you can modify the mock or make assertions as necessary.
         mock_datetime.today.return_value = sato
         self.assertFalse(is_weekday())
-        
-    @patch('__main__.datetime')
-    def test_true(self, mock_datetime):
-        mock_datetime.today.return_value = cov_date
-        self.assertTrue(is_weekday())
+
+    # You can also use patch as a context manager, not necessarily a decorator
+    def test_true(self):
+        with patch("__main__.datetime") as mock_datetime:
+            mock_datetime.today.return_value = cov_date
+            self.assertTrue(is_weekday())
 
 if __name__ == "__main__":
     unittest.main()
